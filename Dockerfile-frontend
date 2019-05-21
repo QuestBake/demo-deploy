@@ -15,7 +15,7 @@ RUN mkdir -p /project/front-end/
 
 RUN mkdir -p /var/lib/intelliq/.ssh/
 
-COPY ./keys/* /var/lib/intelliq/.ssh/
+#COPY ./keys/* /var/lib/intelliq/.ssh/
 
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 
@@ -25,11 +25,11 @@ RUN npm install -g @angular/cli
 
 WORKDIR /project/front-end/
 
-RUN git clone https://github.com/theramkrish8/intelliQ-Client.git
+RUN git clone https://github.com/QuestBake/intelliQ-Client.git
 
 WORKDIR /project/front-end/intelliQ-Client
 
-RUN git checkout docker_build
+RUN git checkout demo_local
 
 RUN npm install
 
