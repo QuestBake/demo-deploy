@@ -25,10 +25,21 @@ services:
     container_name: mongo-db
     expose:
       - 27017
+    volumes:
+      - ./dump:/project/backup
+        #entrypoint: "bash -c \"\
+        #         mongod --fork --logpath ./mongodb.log && \
+        #         sleep 5 && \
+        #         mongorestore -d intelliQ-test /project/backup/intelliQ-test  && \
+        #          tail -f ./mongodb.log \
+        #         \""
 
   redis:
     restart: always
-    image: redis:5.0.4-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile-redis
+    image: redis:${ISOLATION_ID}
     container_name: redis
     expose:
       - 6379

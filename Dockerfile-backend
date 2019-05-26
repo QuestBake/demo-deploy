@@ -36,6 +36,7 @@ RUN mkdir /var/log/intelliq/
 RUN mkdir -p /var/lib/intelliq/.shh/
 
 #COPY . /go/src/intelliq/app
+COPY ./keys/* /var/lib/intelliq/.ssh/
 
 WORKDIR /go/src/
 
@@ -43,9 +44,7 @@ RUN git clone https://github.com/QuestBake/intelliq
 
 WORKDIR /go/src/intelliq/
 
-RUN git checkout demo_docker_local
-
-#COPY ./keys/* var/lib/intelliq/.ssh/
+RUN git checkout demo_cloud
 
 WORKDIR /go/src/intelliq/app/
 
