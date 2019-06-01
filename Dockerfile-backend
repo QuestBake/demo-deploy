@@ -35,7 +35,6 @@ RUN mkdir /var/log/intelliq/
 
 RUN mkdir -p /var/lib/intelliq/.shh/
 
-#COPY . /go/src/intelliq/app
 COPY ./keys/* /var/lib/intelliq/.ssh/
 
 WORKDIR /go/src/

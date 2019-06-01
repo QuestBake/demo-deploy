@@ -9,7 +9,8 @@ services:
     image: intelliq-app:${ISOLATION_ID}
     container_name: intelliq-app
     volumes:
-      - ./:/go/src/github.com/intelliq/app
+      - ../intelliq:/go/src/github.com/intelliq
+        #      - ./:/go/src/github.com/intelliq/app
       - ./keys:/var/lib/intelliq/.ssh
     depends_on:
       - mongo-db
@@ -20,19 +21,14 @@ services:
       - 8080:8080
 
   mongo-db:
-    image: mongo:4.1.11-bionic
-    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile-mongo
+    image: mongo-db:${ISOLATION_ID}
     container_name: mongo-db
+    restart: always
     expose:
       - 27017
-    volumes:
-      - ./dump:/project/backup
-        #entrypoint: "bash -c \"\
-        #         mongod --fork --logpath ./mongodb.log && \
-        #         sleep 5 && \
-        #         mongorestore -d intelliQ-test /project/backup/intelliQ-test  && \
-        #          tail -f ./mongodb.log \
-        #         \""
 
   redis:
     restart: always

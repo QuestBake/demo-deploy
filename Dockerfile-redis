@@ -26,16 +26,21 @@ RUN \
   mkdir -p /etc/redis && \
   cp -f *.conf /etc/redis && \
   rm -rf /tmp/redis-stable* && \
-  sed -i 's/^\(bind .*\)$/# \1/' /etc/redis/redis.conf && \
   sed -i 's/^\(daemonize .*\)$/# \1/' /etc/redis/redis.conf && \
   sed -i 's/^\(dir .*\)$/# \1\ndir \/data/' /etc/redis/redis.conf && \
-  sed -i 's/^\(logfile .*\)$/# \1/' /etc/redis/redis.conf
+  sed -i 's/^\(logfile .*\)$/# \1/' /etc/redis/redis.conf && \
+  sed -i "/bind 127.0.0.1/c bind 0.0.0.0" /etc/redis/redis.conf && \
+  sed -i "/protected-mode yes/c protected-mode no" /etc/redis/redis.conf
 
 # Define mountable directories.
 VOLUME ["/data"]
 
 # Define working directory.
 WORKDIR /data
+
+RUN sysctl vm.overcommit_memory=1
+
+RUN sysctl -w net.core.somaxconn=1024
 
 # Define default command.
 CMD ["redis-server", "/etc/redis/redis.conf"]
